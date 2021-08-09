@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://views/MidiEditor/MidiDrawArea.gd" type="Script" id=1]
+[ext_resource path="res://views/MidiEditor/MidiEditorView.gd" type="Script" id=1]
 [ext_resource path="res://views/MidiEditor/MidiEditor.gd" type="Script" id=2]
+[ext_resource path="res://views/MidiEditor/test_midiclip.tres" type="Resource" id=4]
 
 [node name="MidiEditor" type="Control"]
 anchor_right = 1.0
@@ -10,10 +11,14 @@ script = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-horizontal_increments = 15.0
-vertical_increments = 15.0
+horizontal_increments = 40.0
+vertical_increments = 40.0
+zoom_steps = 1.0
+max_h_zoom = 30.0
+min_h_zoom = 5.0
+midi_clip = ExtResource( 4 )
 
-[node name="MidiDrawArea" type="Control" parent="."]
+[node name="MidiEditorView" type="Control" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 12.0
@@ -25,20 +30,13 @@ script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-horizontal_scale = 100.0
-vertical_scale = 10.0
-bars = 16
-max_h_zoom = 100.0
-min_h_zoom = 10.0
-max_v_zoom = 5.0
-min_v_zoom = 2.0
-number_octaves = 6
 bar_color = Color( 0.419608, 0.419608, 0.419608, 1 )
 beat_color = Color( 0.305882, 0.305882, 0.305882, 1 )
 quantization_color = Color( 0.192157, 0.192157, 0.192157, 1 )
 octave_color = Color( 0.396078, 0.396078, 0.396078, 1 )
 note_color = Color( 0.196078, 0.196078, 0.196078, 1 )
 background_color = Color( 0.0901961, 0.0901961, 0.0901961, 1 )
+highlight_color = Color( 0.145098, 0.145098, 0.145098, 1 )
 
 [node name="HScrollBar" type="HScrollBar" parent="."]
 anchor_top = 1.0
@@ -47,8 +45,8 @@ anchor_bottom = 1.0
 margin_left = 12.0
 margin_top = -12.0
 margin_right = -12.0
-max_value = 3335.33
-page = 1024.0
+max_value = 46895.0
+page = 1000.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -60,8 +58,9 @@ anchor_bottom = 1.0
 margin_left = -12.0
 margin_top = 12.0
 margin_bottom = -12.0
-max_value = 1440.0
-page = 600.0
+max_value = 1680.0
+page = 576.0
+value = 840.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
