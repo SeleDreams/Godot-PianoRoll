@@ -3,7 +3,7 @@
 [ext_resource path="res://views/MidiEditor/MidiDrawArea.gd" type="Script" id=1]
 [ext_resource path="res://views/MidiEditor/MidiEditor.gd" type="Script" id=2]
 
-[node name="MidiEditor" type="ScrollContainer"]
+[node name="MidiEditor" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 2 )
@@ -12,12 +12,25 @@ __meta__ = {
 }
 
 [node name="MidiDrawArea" type="Control" parent="."]
-margin_right = 1250.0
-margin_bottom = 720.0
-rect_min_size = Vector2( 1250, 720 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+rect_min_size = Vector2( 600, 0 )
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-horizontal_scale = 250.0
-bars = 5
+timesig_numerator = 3
+horizontal_scale = 1000.0
+bars = 16
+max_zoom = 10.0
+min_zoom = 1.0
+
+[node name="HScrollBar" type="HScrollBar" parent="MidiDrawArea"]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 12.0
+margin_top = -12.0
+margin_right = -12.0
+max_value = 3335.33
+page = 1024.0
