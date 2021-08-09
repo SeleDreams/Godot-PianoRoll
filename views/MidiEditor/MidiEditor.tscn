@@ -20,10 +20,14 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 timesig_numerator = 3
-horizontal_scale = 1000.0
+horizontal_scale = 100.0
+vertical_scale = 10.0
 bars = 16
-max_zoom = 10.0
-min_zoom = 1.0
+max_h_zoom = 100.0
+min_h_zoom = 10.0
+max_v_zoom = 5.0
+min_v_zoom = 2.0
+number_octaves = 6
 
 [node name="HScrollBar" type="HScrollBar" parent="MidiDrawArea"]
 anchor_top = 1.0
@@ -34,3 +38,17 @@ margin_top = -12.0
 margin_right = -12.0
 max_value = 3335.33
 page = 1024.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VScrollBar" type="VScrollBar" parent="MidiDrawArea"]
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -12.0
+margin_top = 12.0
+margin_bottom = -12.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
