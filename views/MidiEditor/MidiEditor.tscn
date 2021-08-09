@@ -10,16 +10,21 @@ script = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+horizontal_increments = 15.0
+vertical_increments = 15.0
 
 [node name="MidiDrawArea" type="Control" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
+margin_left = 12.0
+margin_top = 12.0
+margin_right = -12.0
+margin_bottom = -12.0
 rect_min_size = Vector2( 600, 0 )
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-timesig_numerator = 3
 horizontal_scale = 100.0
 vertical_scale = 10.0
 bars = 16
@@ -28,8 +33,14 @@ min_h_zoom = 10.0
 max_v_zoom = 5.0
 min_v_zoom = 2.0
 number_octaves = 6
+bar_color = Color( 0.419608, 0.419608, 0.419608, 1 )
+beat_color = Color( 0.305882, 0.305882, 0.305882, 1 )
+quantization_color = Color( 0.192157, 0.192157, 0.192157, 1 )
+octave_color = Color( 0.396078, 0.396078, 0.396078, 1 )
+note_color = Color( 0.196078, 0.196078, 0.196078, 1 )
+background_color = Color( 0.0901961, 0.0901961, 0.0901961, 1 )
 
-[node name="HScrollBar" type="HScrollBar" parent="MidiDrawArea"]
+[node name="HScrollBar" type="HScrollBar" parent="."]
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -42,13 +53,15 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="VScrollBar" type="VScrollBar" parent="MidiDrawArea"]
+[node name="VScrollBar" type="VScrollBar" parent="."]
 anchor_left = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = -12.0
 margin_top = 12.0
 margin_bottom = -12.0
+max_value = 1440.0
+page = 600.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
