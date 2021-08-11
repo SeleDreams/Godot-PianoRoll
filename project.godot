@@ -9,26 +9,67 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "Node",
+"class": "Globals",
+"language": "GDScript",
+"path": "res://Globals.gd"
+}, {
 "base": "Resource",
 "class": "MidiClip",
 "language": "GDScript",
 "path": "res://MidiClip.gd"
 }, {
 "base": "Control",
+"class": "MidiEditor",
+"language": "GDScript",
+"path": "res://views/MidiEditor/MidiEditor.gd"
+}, {
+"base": "MusicalGrid",
 "class": "MidiEditorView",
 "language": "GDScript",
 "path": "res://views/MidiEditor/MidiEditorView.gd"
+}, {
+"base": "Control",
+"class": "MusicalGrid",
+"language": "GDScript",
+"path": "res://MusicalGrid.gd"
+}, {
+"base": "Node",
+"class": "MusicalTime",
+"language": "GDScript",
+"path": "res://MusicalTime.gd"
+}, {
+"base": "Resource",
+"class": "Note",
+"language": "GDScript",
+"path": "res://Note.gd"
+}, {
+"base": "Control",
+"class": "NoteView",
+"language": "GDScript",
+"path": "res://views/MidiEditor/NoteRenderer.gd"
 } ]
 _global_script_class_icons={
+"Globals": "",
 "MidiClip": "",
-"MidiEditorView": ""
+"MidiEditor": "",
+"MidiEditorView": "",
+"MusicalGrid": "",
+"MusicalTime": "",
+"Note": "",
+"NoteView": ""
 }
 
 [application]
 
 config/name="Vocal Editor"
+run/main_scene="res://views/MainWindow/MainWindow.tscn"
 run/low_processor_mode=true
 config/icon="res://icon.png"
+
+[autoload]
+
+SongManager="*res://singletons/SongManager/SongManager.gd"
 
 [input]
 
