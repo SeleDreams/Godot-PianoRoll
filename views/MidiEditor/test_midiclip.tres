@@ -9,4 +9,4 @@ timesig_denominator = 4.0
 quantization_numerator = 1.0
 quantization_denominator = 16.0
 bpm = 120.0
-beats = 16
+beats = 0

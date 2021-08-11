@@ -1,4 +1,3 @@
-tool
 extends MusicalGrid
 class_name MidiEditorView
 

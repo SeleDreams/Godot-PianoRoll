@@ -32,9 +32,8 @@ func draw_beats():
 
 func draw_quantization():
 	var bpm_factor = 100 as float / clip.bpm
-	var quantization = clip.get_quantization()
-	var ticks = Globals.default_ticks_per_bar / quantization * clip.timesig_numerator
-	for i in range(1,(bar_count / clip.timesig_numerator) * quantization ):
+	var ticks = Globals.default_ticks_per_bar / clip.timesig_numerator / clip.quantization_denominator / (clip.quantization_numerator / clip.timesig_denominator)
+	for i in range(1,bar_count * clip.quantization_denominator * clip.timesig_numerator):
 			var beat_pos = Vector2(horizontal_scale * ticks * bpm_factor * i - offset.x,0)
 			if beat_pos.x < rect_size.x and beat_pos.x > 0:
 				draw_line(beat_pos,beat_pos + Vector2(0,rect_size.y),quantization_color,1.0)

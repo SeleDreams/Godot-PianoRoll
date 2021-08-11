@@ -11,20 +11,31 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="HSeparator" type="HSeparator" parent="."]
+[node name="VSplitContainer" type="VSplitContainer" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
+mouse_filter = 1
+split_offset = 400
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Panel" type="Panel" parent="HSeparator"]
-anchor_right = 1.0
-anchor_bottom = 1.0
+[node name="Panel" type="Panel" parent="VSplitContainer"]
+margin_right = 1024.0
+margin_bottom = 405.0
+rect_min_size = Vector2( 0, 5 )
+mouse_filter = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="MidiEditor" parent="HSeparator" instance=ExtResource( 1 )]
-anchor_top = 1.0
-margin_top = -290.0
+[node name="Panel2" type="Panel" parent="VSplitContainer"]
+margin_top = 417.0
+margin_right = 1024.0
+margin_bottom = 600.0
+mouse_filter = 1
+
+[node name="MidiEditor" parent="VSplitContainer/Panel2" instance=ExtResource( 1 )]
+margin_left = 50.0
+margin_right = -50.0
+rect_min_size = Vector2( 0, 5 )

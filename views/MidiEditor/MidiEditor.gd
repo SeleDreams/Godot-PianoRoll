@@ -1,4 +1,3 @@
-tool
 extends Control
 class_name MidiEditor
 
@@ -28,9 +27,10 @@ export(Resource) var midi_clip
 var playback_time : float = 0.0
 var beat_time : float
 var clip_time : float
-onready var midi_editor_view = $MidiEditorView
+var midi_editor_view
 
 func _ready():
+	midi_editor_view = $MidiEditorView
 	midi_editor_view.update_midiclip(midi_clip)
 	h_scrollbar = get_node("HScrollBar")
 	v_scrollbar = get_node("VScrollBar")
@@ -40,14 +40,8 @@ func _ready():
 	get_tree().get_root().connect("size_changed", self, "update_draw_area")
 	hzoom = max(min_h_zoom,max_h_zoom / 2)
 	vzoom = max(min_v_zoom,max_v_zoom / 2)
-	beat_time = beat_to_seconds(midi_clip.bpm,midi_clip.timesig_numerator)
-	clip_time = beat_time * midi_clip.beats
 	update_offsets(0)
 	v_scrollbar.value = Globals.octaves.OCTAVE_3 * Globals.octave_keys.KEY_COUNT * (vertical_scale * hzoom)
-
-func beat_to_seconds(bpm,time_sig) -> float:
-	return 60 / (bpm)
-
 
 func _input(event):
 		if Input.is_action_pressed("control"):
@@ -92,8 +86,8 @@ func update_draw_area():
 	h_scrollbar.page =  midi_editor_view.rect_size.x
 	v_scrollbar.max_value = midi_editor_view.total_vertical_size
 	v_scrollbar.page =  midi_editor_view.rect_size.y
-	midi_editor_view.update()
 	update_zoom()
+	midi_editor_view.update()
 
 func update_offsets(value):
 	midi_editor_view.update_offsets(h_scrollbar.value,v_scrollbar.value)
