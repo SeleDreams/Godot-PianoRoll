@@ -7,7 +7,7 @@ export var quantization_numerator : float = 1
 export var quantization_denominator : float = 16
 export var bpm : float = 120
 export var beats : int
-var notes := {}
+var notes : Array
 
 func get_quantization() -> float:
 	return timesig_numerator / (quantization_numerator / quantization_denominator)

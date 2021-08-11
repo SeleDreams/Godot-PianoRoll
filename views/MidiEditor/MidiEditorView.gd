@@ -28,8 +28,7 @@ func draw_octaves():
 
 func draw_notes():
 	var clip = midi_editor.midi_clip
-	for note_id in clip.notes:
-		var note : Note = clip.notes[note_id]
+	for note in clip.notes:
 		var note_pos : Vector2 = midi_editor.grid_pos_to_local_pos(Vector2(note.pos,note.note))
 		var note_length =  midi_editor.ticks_to_width(note.length)
 		if note_pos.x + note_length > 0 and note_pos.x < rect_size.x and note_pos.y + vertical_scale > 0 and note_pos.y < rect_size.y:

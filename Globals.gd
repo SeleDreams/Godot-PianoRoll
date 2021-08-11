@@ -39,3 +39,8 @@ enum octave_keys{
 	KEY_B = 11
 	KEY_COUNT
 }
+
+enum side{
+	LEFT,
+	RIGHT
+}

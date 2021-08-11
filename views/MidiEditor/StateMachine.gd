@@ -10,7 +10,7 @@ var _target_node
 func _ready():
 	_target_node = get_node(target_nodepath)
 
-func _transition_to_state(var new_state : String,msg := {}):
+func transition_to_state(new_state : String,msg := {}):
 	var new_state_node = get_node(new_state)
 	assert(new_state_node)
 	if _state:
@@ -22,4 +22,4 @@ func _input(event):
 	if _state:
 		_state.input(event)
 	else:
-		_transition_to_state(initial_state)
+		transition_to_state(initial_state)
