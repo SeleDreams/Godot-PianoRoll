@@ -24,14 +24,13 @@ export var max_bar_count : int = 150
 
 export(Resource) var midi_clip
 
-var playback_time : float = 0.0
-var beat_time : float
-var clip_time : float
+var bpm_factor : float
 var midi_editor_view
 
 func _ready():
+	bpm_factor = 100 as float / midi_clip.bpm
 	midi_editor_view = $MidiEditorView
-	midi_editor_view.update_midiclip(midi_clip)
+	midi_editor_view.midi_editor = self
 	h_scrollbar = get_node("HScrollBar")
 	v_scrollbar = get_node("VScrollBar")
 	v_scrollbar.connect("value_changed",self,"update_offsets")
@@ -99,4 +98,30 @@ func update_zoom():
 	var bpm_factor = 100 as float / midi_clip.bpm
 	midi_editor_view.update_scale(Vector2(horizontal_scale * hzoom,vertical_scale * vzoom))
 	midi_editor_view.total_horizontal_size =  (horizontal_scale * hzoom * Globals.default_ticks_per_bar * max_bar_count * bpm_factor) + 20
-	midi_editor_view.total_vertical_size = vertical_scale * vzoom * Globals.octaves.OCTAVE_COUNT * 12 
+	midi_editor_view.total_vertical_size = vertical_scale * vzoom * Globals.octaves.OCTAVE_COUNT * 12
+
+func get_step() -> int:
+	return (Globals.default_ticks_per_bar / midi_clip.timesig_numerator / midi_clip.quantization_denominator / (midi_clip.quantization_numerator / midi_clip.timesig_denominator)) as int
+
+func width_to_ticks(width : float) -> int:
+	return (( width / ((horizontal_scale * hzoom) * bpm_factor))) as int
+
+func ticks_to_width(ticks : int):
+	return ticks * (horizontal_scale * hzoom) * bpm_factor
+
+func height_to_note(height : int) -> int:
+	return (((Globals.octaves.OCTAVE_COUNT * Globals.octave_keys.KEY_COUNT * (vertical_scale * vzoom)) - height) / (vertical_scale * vzoom)) + 1 as int
+
+func note_to_height(note : int) -> float:
+	return  ((Globals.octaves.OCTAVE_COUNT * Globals.octave_keys.KEY_COUNT) - note) * (vertical_scale * vzoom)
+
+func ticks_to_step(ticks : int):
+	var rest = ticks % get_step()
+	return ticks - rest
+
+func mouse_pos_to_grid_pos() -> Vector2:
+	var pos = midi_editor_view.get_local_mouse_position() + midi_editor_view.offset
+	return Vector2(ticks_to_step(width_to_ticks(pos.x)),height_to_note(pos.y as int))
+
+func grid_pos_to_local_pos(original : Vector2) -> Vector2:
+	return Vector2(ticks_to_width(original.x),note_to_height(original.y)) - midi_editor_view.offset

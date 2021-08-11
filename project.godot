@@ -44,10 +44,15 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Note.gd"
 }, {
-"base": "Control",
-"class": "NoteView",
+"base": "Node",
+"class": "State",
 "language": "GDScript",
-"path": "res://views/MidiEditor/NoteRenderer.gd"
+"path": "res://views/MidiEditor/State.gd"
+}, {
+"base": "Node",
+"class": "StateMachine",
+"language": "GDScript",
+"path": "res://views/MidiEditor/StateMachine.gd"
 } ]
 _global_script_class_icons={
 "Globals": "",
@@ -57,7 +62,8 @@ _global_script_class_icons={
 "MusicalGrid": "",
 "MusicalTime": "",
 "Note": "",
-"NoteView": ""
+"State": "",
+"StateMachine": ""
 }
 
 [application]
