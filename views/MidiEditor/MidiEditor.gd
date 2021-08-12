@@ -33,6 +33,7 @@ var state_machine : StateMachine
 var quantization : int = 16
 var length_quantization : int = 16
 
+
 func _ready():
 	state_machine = $StateMachine
 	init_quantization_buttons()
@@ -168,9 +169,9 @@ func _on_draw_toggled(button_pressed):
 
 
 func _on_QuantizationDropdown_item_selected(index):
-	quantization = index * 2
+	quantization = index * 2 if index > 0 else 1
 	update_draw_area()
 
 func _on_LengthQuantizationDropdown_item_selected(index):
-	length_quantization = index * 2
+	length_quantization = index * 2 if index > 0 else 1
 	update_draw_area()

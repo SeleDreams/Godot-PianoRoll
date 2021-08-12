@@ -25,20 +25,26 @@ func update_resize():
 		midi_editor_view.set_default_cursor_shape(Input.CURSOR_POINTING_HAND)
 		in_resize_area = false
 
+
 func update_input(cursor : int,state : MidiEditorState):
 	mouse_position = midi_editor.mouse_pos_to_grid_pos()
 	if not update_current_note():
 		midi_editor_view.set_default_cursor_shape(cursor)
 	else:
 		update_resize()
-		if Input.is_action_just_pressed("select"):
-			if in_resize_area:
+		if Input.is_action_pressed("select"):
+			if Input.is_action_just_pressed("select"):
+				if not Input.is_action_pressed("control") and (hovering_note == null or hovering_note.selected == false):
+					midi_editor_view.clear_selection()
+				if hovering_note != null:
+					if Input.is_action_pressed("control") and hovering_note.selected:
+						midi_editor_view.unselect_note(hovering_note)
+					elif not hovering_note.selected:
+						midi_editor_view.select_note(hovering_note)
+			if in_resize_area and hovering_note.selected:
 				_state_machine.transition_to_state("ResizeNote",{
-					"note":hovering_note,
 					"side":Globals.side.RIGHT,
 					"state":state.get_path()})
 			else:
 				_state_machine.transition_to_state("MoveNote",{
-					"note":hovering_note,
-					"state":state.get_path(),
-					"offset": mouse_position.x - hovering_note.pos})
+					"state":state.get_path()})
