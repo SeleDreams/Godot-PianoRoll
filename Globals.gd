@@ -1,5 +1,4 @@
 extends Node
-class_name Globals
 
 const default_ticks_per_bar : int = 192
 var ticks_per_bar : int = default_ticks_per_bar

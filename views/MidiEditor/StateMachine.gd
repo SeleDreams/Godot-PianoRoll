@@ -2,7 +2,7 @@ extends Node
 class_name StateMachine
 
 var _state : State
-var _state_name : State
+var _state_name : String
 export var target_nodepath : NodePath
 export var initial_state : NodePath
 var _target_node
@@ -12,6 +12,7 @@ func _ready():
 
 func transition_to_state(new_state : String,msg := {}):
 	var new_state_node = get_node(new_state)
+	_state_name = new_state
 	assert(new_state_node)
 	if _state:
 		_state.exit()

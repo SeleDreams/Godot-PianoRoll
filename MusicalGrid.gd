@@ -20,8 +20,8 @@ var total_vertical_size : float
 
 var bar_count : int
 var hovered : bool
-
-var midi_editor : MidiEditor
+var cursor : int
+var midi_editor
 
 func _ready():
 	yield(owner,"ready")
@@ -30,7 +30,7 @@ func _ready():
 
 func _mouse_entered():
 	hovered = true
-	
+
 func _mouse_exited():
 	hovered = false
 
@@ -45,8 +45,8 @@ func draw_beats():
 				draw_line(beat_pos,beat_pos + Vector2(0,rect_size.y),beat_color,2.0)
 
 func draw_quantization():
-	var ticks = Globals.default_ticks_per_bar / midi_editor.midi_clip.timesig_numerator / midi_editor.midi_clip.quantization_denominator / (midi_editor.midi_clip.quantization_numerator / midi_editor.midi_clip.timesig_denominator)
-	for i in range(1,bar_count * midi_editor.midi_clip.quantization_denominator * midi_editor.midi_clip.timesig_numerator):
+	var ticks = Globals.default_ticks_per_bar / midi_editor.midi_clip.timesig_numerator / midi_editor.quantization / (1 / midi_editor.midi_clip.timesig_denominator)
+	for i in range(1,bar_count * midi_editor.quantization * midi_editor.midi_clip.timesig_numerator):
 			var beat_pos = Vector2(horizontal_scale * ticks * midi_editor.bpm_factor * i - offset.x,0)
 			if beat_pos.x < rect_size.x and beat_pos.x > 0:
 				draw_line(beat_pos,beat_pos + Vector2(0,rect_size.y),quantization_color,1.0)

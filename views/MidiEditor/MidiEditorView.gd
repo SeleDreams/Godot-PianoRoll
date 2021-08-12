@@ -34,6 +34,12 @@ func draw_notes():
 		if note_pos.x + note_length > 0 and note_pos.x < rect_size.x and note_pos.y + vertical_scale > 0 and note_pos.y < rect_size.y:
 			draw_rect(Rect2(note_pos,Vector2(note_length,vertical_scale)),Color.green)
 
+func is_hovering_note(position : Vector2,note : Note):
+	var hovering_horizontal : bool = position.x >= note.pos and position.x <= note.pos + note.length
+	var hovering_vertical : bool = position.y as int == note.note
+	return hovering_horizontal and hovering_vertical
+
+
 func update_offsets(x,y):
 	offset = Vector2(x,y)
 

@@ -9,10 +9,15 @@
 config_version=4
 
 _global_script_classes=[ {
-"base": "Node",
-"class": "Globals",
+"base": "MidiEditorState",
+"class": "DrawNote",
 "language": "GDScript",
-"path": "res://Globals.gd"
+"path": "res://views/MidiEditor/DrawNote.gd"
+}, {
+"base": "MidiEditorState",
+"class": "HoverNote",
+"language": "GDScript",
+"path": "res://views/MidiEditor/HoverNotes.gd"
 }, {
 "base": "Resource",
 "class": "MidiClip",
@@ -23,6 +28,11 @@ _global_script_classes=[ {
 "class": "MidiEditor",
 "language": "GDScript",
 "path": "res://views/MidiEditor/MidiEditor.gd"
+}, {
+"base": "State",
+"class": "MidiEditorState",
+"language": "GDScript",
+"path": "res://MidiEditorState.gd"
 }, {
 "base": "MusicalGrid",
 "class": "MidiEditorView",
@@ -44,6 +54,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Note.gd"
 }, {
+"base": "MidiEditorState",
+"class": "ResizeNote",
+"language": "GDScript",
+"path": "res://views/MidiEditor/ResizeNote.gd"
+}, {
 "base": "Node",
 "class": "State",
 "language": "GDScript",
@@ -55,13 +70,16 @@ _global_script_classes=[ {
 "path": "res://views/MidiEditor/StateMachine.gd"
 } ]
 _global_script_class_icons={
-"Globals": "",
+"DrawNote": "",
+"HoverNote": "",
 "MidiClip": "",
 "MidiEditor": "",
+"MidiEditorState": "",
 "MidiEditorView": "",
 "MusicalGrid": "",
 "MusicalTime": "",
 "Note": "",
+"ResizeNote": "",
 "State": "",
 "StateMachine": ""
 }
@@ -76,6 +94,7 @@ config/icon="res://icon.png"
 [autoload]
 
 SongManager="*res://singletons/SongManager/SongManager.gd"
+Globals="*res://Globals.gd"
 
 [input]
 
@@ -154,6 +173,11 @@ control={
 shift={
 "deadzone": 0.5,
 "events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777237,"unicode":0,"echo":false,"script":null)
+ ]
+}
+switch_mode={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":69,"unicode":0,"echo":false,"script":null)
  ]
 }
 

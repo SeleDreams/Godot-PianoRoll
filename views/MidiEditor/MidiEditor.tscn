@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://views/MidiEditor/MidiEditorView.gd" type="Script" id=1]
 [ext_resource path="res://views/MidiEditor/MidiEditor.gd" type="Script" id=2]
@@ -6,7 +6,12 @@
 [ext_resource path="res://views/MidiEditor/test_midiclip.tres" type="Resource" id=4]
 [ext_resource path="res://views/MidiEditor/ResizeNote.gd" type="Script" id=5]
 [ext_resource path="res://views/MidiEditor/StateMachine.gd" type="Script" id=6]
-[ext_resource path="res://views/MidiEditor/Draw.gd" type="Script" id=7]
+[ext_resource path="res://views/MidiEditor/DrawNote.gd" type="Script" id=7]
+[ext_resource path="res://views/MidiEditor/SelectNote.gd" type="Script" id=8]
+[ext_resource path="res://views/MidiEditor/MoveNote.gd" type="Script" id=9]
+[ext_resource path="res://views/MidiEditor/HoverNotes.gd" type="Script" id=10]
+[ext_resource path="res://resources/ButtonGroups/EditModeButtonGroup.tres" type="ButtonGroup" id=11]
+[ext_resource path="res://resources/ButtonGroups/QuantizationButtons.tres" type="ButtonGroup" id=12]
 
 [sub_resource type="DynamicFont" id=1]
 size = 15
@@ -25,10 +30,11 @@ horizontal_increments = 40.0
 vertical_increments = 40.0
 zoom_steps = 0.5
 max_h_zoom = 5.0
-min_h_zoom = 2.0
+min_h_zoom = 1.0
 horizontal_scale = 1.0
 max_bar_count = 30
 midi_clip = ExtResource( 4 )
+quantization_buttons = ExtResource( 12 )
 
 [node name="MidiEditorView" type="Control" parent="."]
 anchor_right = 1.0
@@ -55,6 +61,97 @@ note_color = Color( 0.196078, 0.196078, 0.196078, 1 )
 highlight_color = Color( 0.145098, 0.145098, 0.145098, 1 )
 white_key_shade = Color( 0.231373, 0.231373, 0.231373, 0.870588 )
 
+[node name="Toolbar" type="Panel" parent="."]
+anchor_top = 0.962
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -24.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ToolbarContainer" type="HBoxContainer" parent="Toolbar"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 20.0
+margin_top = 10.0
+margin_right = -20.0
+margin_bottom = -24.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Toolbar/ToolbarContainer"]
+margin_right = 97.0
+margin_bottom = 20.0
+
+[node name="Select" type="Button" parent="Toolbar/ToolbarContainer/HBoxContainer"]
+margin_right = 51.0
+margin_bottom = 20.0
+toggle_mode = true
+pressed = true
+group = ExtResource( 11 )
+text = "select"
+
+[node name="draw" type="Button" parent="Toolbar/ToolbarContainer/HBoxContainer"]
+margin_left = 55.0
+margin_right = 97.0
+margin_bottom = 20.0
+toggle_mode = true
+group = ExtResource( 11 )
+text = "draw"
+
+[node name="VSeparator" type="VSeparator" parent="Toolbar/ToolbarContainer"]
+margin_left = 101.0
+margin_right = 105.0
+margin_bottom = 20.0
+
+[node name="Quantization" type="HBoxContainer" parent="Toolbar/ToolbarContainer"]
+margin_left = 109.0
+margin_right = 257.0
+margin_bottom = 20.0
+
+[node name="Label" type="Label" parent="Toolbar/ToolbarContainer/Quantization"]
+margin_top = 3.0
+margin_right = 86.0
+margin_bottom = 17.0
+text = "Quantization "
+
+[node name="QuantizationDropdown" type="OptionButton" parent="Toolbar/ToolbarContainer/Quantization"]
+margin_left = 90.0
+margin_right = 148.0
+margin_bottom = 20.0
+group = ExtResource( 12 )
+text = "1/16"
+expand_icon = true
+
+[node name="VSeparator2" type="VSeparator" parent="Toolbar/ToolbarContainer"]
+margin_left = 261.0
+margin_right = 265.0
+margin_bottom = 20.0
+
+[node name="LengthQuantization" type="HBoxContainer" parent="Toolbar/ToolbarContainer"]
+margin_left = 269.0
+margin_right = 409.0
+margin_bottom = 20.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="Toolbar/ToolbarContainer/LengthQuantization"]
+margin_top = 3.0
+margin_right = 78.0
+margin_bottom = 17.0
+text = "Note Length"
+
+[node name="LengthQuantizationDropdown" type="OptionButton" parent="Toolbar/ToolbarContainer/LengthQuantization"]
+margin_left = 82.0
+margin_right = 140.0
+margin_bottom = 20.0
+group = ExtResource( 12 )
+text = "1/16"
+expand_icon = true
+
 [node name="HScrollBar" type="HScrollBar" parent="."]
 anchor_top = 1.0
 anchor_right = 1.0
@@ -73,7 +170,7 @@ anchor_left = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = -12.0
-margin_top = 12.0
+margin_top = 32.0
 margin_bottom = -12.0
 max_value = 1680.0
 page = 588.0
@@ -87,10 +184,25 @@ __meta__ = {
 ]]
 script = ExtResource( 6 )
 target_nodepath = NodePath("..")
-initial_state = NodePath("DrawNote")
-
-[node name="DrawNote" type="Node" parent="StateMachine"]
-script = ExtResource( 7 )
+initial_state = NodePath("HoverNote/SelectNote")
 
 [node name="ResizeNote" type="Node" parent="StateMachine"]
 script = ExtResource( 5 )
+
+[node name="MoveNote" type="Node" parent="StateMachine"]
+script = ExtResource( 9 )
+
+[node name="HoverNote" type="Node" parent="StateMachine"]
+script = ExtResource( 10 )
+deadzone_note_resize = 5
+
+[node name="DrawNote" type="Node" parent="StateMachine/HoverNote"]
+script = ExtResource( 7 )
+
+[node name="SelectNote" type="Node" parent="StateMachine/HoverNote"]
+script = ExtResource( 8 )
+
+[connection signal="toggled" from="Toolbar/ToolbarContainer/HBoxContainer/Select" to="." method="_on_Select_toggled"]
+[connection signal="toggled" from="Toolbar/ToolbarContainer/HBoxContainer/draw" to="." method="_on_draw_toggled"]
+[connection signal="item_selected" from="Toolbar/ToolbarContainer/Quantization/QuantizationDropdown" to="." method="_on_QuantizationDropdown_item_selected"]
+[connection signal="item_selected" from="Toolbar/ToolbarContainer/LengthQuantization/LengthQuantizationDropdown" to="." method="_on_LengthQuantizationDropdown_item_selected"]
