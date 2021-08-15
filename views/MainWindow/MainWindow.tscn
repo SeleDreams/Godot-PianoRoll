@@ -36,6 +36,6 @@ margin_bottom = 600.0
 mouse_filter = 1
 
 [node name="MidiEditor" parent="VSplitContainer/Panel2" instance=ExtResource( 1 )]
-margin_left = 50.0
-margin_right = -50.0
+margin_left = 10.0
+margin_right = -10.0
 rect_min_size = Vector2( 0, 5 )

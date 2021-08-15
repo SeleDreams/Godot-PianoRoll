@@ -5,6 +5,7 @@ export var deadzone_note_resize : int
 var hovering_note : Note
 var in_resize_area : bool
 var mouse_position : Vector2
+var hovered_side : int
 
 func update_current_note() -> bool:
 	for note in midi_editor.midi_clip.notes:
@@ -18,7 +19,9 @@ func update_resize():
 	var note = hovering_note
 	var pos = mouse_position
 	var right_side : bool = pos.x > note.pos + note.length - clamp(note.length / deadzone_note_resize,deadzone_note_resize / 4,deadzone_note_resize)
-	if right_side:
+	var left_side : bool = pos.x > note.pos and pos.x < note.pos + clamp(note.length / deadzone_note_resize,deadzone_note_resize / 4,deadzone_note_resize)
+	if note and right_side or left_side:
+		hovered_side = Globals.side.LEFT if left_side else Globals.side.RIGHT
 		midi_editor_view.set_default_cursor_shape(Input.CURSOR_HSIZE)
 		in_resize_area = true
 	else:
@@ -32,18 +35,18 @@ func update_input(cursor : int,state : MidiEditorState):
 		midi_editor_view.set_default_cursor_shape(cursor)
 	else:
 		update_resize()
-		if Input.is_action_pressed("select"):
-			if Input.is_action_just_pressed("select"):
-				if not Input.is_action_pressed("control") and (hovering_note == null or hovering_note.selected == false):
-					midi_editor_view.clear_selection()
-				if hovering_note != null:
-					if Input.is_action_pressed("control") and hovering_note.selected:
-						midi_editor_view.unselect_note(hovering_note)
-					elif not hovering_note.selected:
-						midi_editor_view.select_note(hovering_note)
+	if Input.is_action_just_pressed("select"):
+		print(hovering_note)
+		if not Input.is_action_pressed("control") and (hovering_note == null or hovering_note.selected == false):
+			midi_editor_view.clear_selection()
+		if hovering_note != null:
+			if Input.is_action_pressed("control") and hovering_note.selected:
+				midi_editor_view.unselect_note(hovering_note)
+			elif not hovering_note.selected:
+				midi_editor_view.select_note(hovering_note)
 			if in_resize_area and hovering_note.selected:
 				_state_machine.transition_to_state("ResizeNote",{
-					"side":Globals.side.RIGHT,
+					"side":hovered_side,
 					"state":state.get_path()})
 			else:
 				_state_machine.transition_to_state("MoveNote",{
