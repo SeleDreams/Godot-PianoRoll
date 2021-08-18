@@ -8,8 +8,9 @@ export var selected_note_color : Color
 export var highlight_color : Color
 export var white_key_shade : Color
 export var key_color : Color
+export var selection_color : Color
 var selected_notes : Array
-
+var selection_rect : Rect2
 
 func draw_highlighted_part():
 	var right_side = min(rect_size.x,(horizontal_scale * midi_editor.midi_clip.beats / midi_editor.midi_clip.timesig_numerator / midi_editor.midi_clip.timesig_denominator * midi_editor.bpm_factor) - offset.x)
@@ -39,6 +40,9 @@ func draw_notes():
 				draw_rect(Rect2(note_pos,Vector2(note_length,vertical_scale)),selected_note_color)
 			else:
 				draw_rect(Rect2(note_pos,Vector2(note_length,vertical_scale)),note_color)
+
+func draw_selection():
+	draw_rect(selection_rect,selection_color)
 
 func is_hovering_note(position : Vector2,note : Note):
 	var hovering_horizontal : bool = position.x >= note.pos and position.x <= note.pos + note.length
@@ -88,6 +92,7 @@ func _draw():
 	draw_octaves()
 	draw_grid()
 	draw_notes()
+	draw_selection()
 	draw_timeline()
 
 func update_scale(scale : Vector2):

@@ -149,9 +149,12 @@ func ticks_to_length_steps(ticks : int):
 	var rest = ticks % get_length_step()
 	return ticks - rest
 
+func pos_to_grid_pos(pos : Vector2) -> Vector2:
+	return Vector2(width_to_ticks(pos.x),height_to_note(pos.y as int))
+
 func mouse_pos_to_grid_pos() -> Vector2:
 	var pos = midi_editor_view.get_local_mouse_position() + midi_editor_view.offset
-	return Vector2(width_to_ticks(pos.x),height_to_note(pos.y as int))
+	return pos_to_grid_pos(pos)
 
 func grid_pos_to_local_pos(original : Vector2) -> Vector2:
 	return Vector2(ticks_to_width(original.x),note_to_height(original.y)) - midi_editor_view.offset
