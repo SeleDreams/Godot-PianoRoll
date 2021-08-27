@@ -51,3 +51,5 @@ func update_input(cursor : int,state : MidiEditorState):
 			else:
 				_state_machine.transition_to_state("MoveNote",{
 					"state":state.get_path()})
+	elif Input.is_action_just_pressed("delete"):
+		midi_editor_view.delete_selection()

@@ -35,7 +35,6 @@ func input(event):
 	if Input.is_action_just_released("select") and not Input.is_action_pressed("control"):
 		midi_editor_view.clear_selection()
 	if hover.hovering_note.selected == false:
-		midi_editor_view.select_note(hover.hovering_notes)
+		midi_editor_view.select_note(hover.hovering_note)
 	elif Input.is_action_pressed("control"):
 		midi_editor_view.unselect_note(hover.hovering_note)
-		

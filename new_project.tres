@@ -1,0 +1,32 @@
+[gd_resource type="Resource" load_steps=5 format=2]
+
+[ext_resource path="res://Note.gd" type="Script" id=1]
+[ext_resource path="res://MidiClip.gd" type="Script" id=2]
+
+[sub_resource type="Resource" id=1]
+script = ExtResource( 1 )
+note = 79
+pos = 0
+length = 480
+velocity = 0
+selected = false
+selected_index = -1
+index = 0
+
+[sub_resource type="Resource" id=2]
+script = ExtResource( 1 )
+note = 78
+pos = 480
+length = 480
+velocity = 0
+selected = false
+selected_index = -1
+index = 1
+
+[resource]
+script = ExtResource( 2 )
+timesig_numerator = 4.0
+timesig_denominator = 4.0
+bpm = 120.0
+beats = 0
+notes = [ SubResource( 1 ), SubResource( 2 ) ]

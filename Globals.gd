@@ -1,6 +1,6 @@
 extends Node
 
-const default_ticks_per_bar : int = 192
+const default_ticks_per_bar : int = 960
 var ticks_per_bar : int = default_ticks_per_bar
 
 const default_steps_per_bar : int =  16

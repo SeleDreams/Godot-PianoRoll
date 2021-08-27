@@ -8,3 +8,4 @@ timesig_numerator = 4.0
 timesig_denominator = 4.0
 bpm = 120.0
 beats = 0
+notes = [  ]

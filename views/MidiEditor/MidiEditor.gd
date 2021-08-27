@@ -40,16 +40,16 @@ func _ready():
 	bpm_factor = 100 as float / midi_clip.bpm
 	midi_editor_view = $MidiEditorView
 	midi_editor_view.midi_editor = self
-	h_scrollbar = get_node("HScrollBar")
-	v_scrollbar = get_node("VScrollBar")
+	h_scrollbar = midi_editor_view.get_node("HScrollBar")
+	v_scrollbar = midi_editor_view.get_node("VScrollBar")
 	v_scrollbar.connect("value_changed",self,"update_offsets")
 	h_scrollbar.connect("value_changed",self,"update_offsets")
 	connect("resized",self,"update_draw_area")
 	get_tree().get_root().connect("size_changed", self, "update_draw_area")
-	hzoom = max(min_h_zoom,max_h_zoom / 2)
-	vzoom = max(min_v_zoom,max_v_zoom / 2)
+	hzoom = max(min_h_zoom,max_h_zoom / 4)
+	vzoom = max(min_v_zoom,max_v_zoom / 1.5)
 	update_offsets(0)
-	v_scrollbar.value = Globals.octaves.OCTAVE_3 * Globals.octave_keys.KEY_COUNT * (vertical_scale * hzoom)
+	v_scrollbar.value = Globals.octaves.OCTAVE_3 * Globals.octave_keys.KEY_COUNT * (vertical_scale * vzoom)
 
 
 func init_quantization_buttons():
@@ -62,6 +62,8 @@ func init_quantization_buttons():
 			option_button.add_item("1/%d" % (i ))
 		option_button.select(8)
 
+func save(output_path : String):
+	midi_clip.s
 
 func _input(event):
 	if not midi_editor_view.hovered:
@@ -170,7 +172,6 @@ func _on_draw_toggled(button_pressed):
 		state_machine.transition_to_state("HoverNote/DrawNote")
 
 
-
 func _on_QuantizationDropdown_item_selected(index):
 	quantization = index * 2 if index > 0 else 1
 	update_draw_area()
@@ -178,3 +179,50 @@ func _on_QuantizationDropdown_item_selected(index):
 func _on_LengthQuantizationDropdown_item_selected(index):
 	length_quantization = index * 2 if index > 0 else 1
 	update_draw_area()
+
+
+func _on_RenderButton_button_down():
+	var result : bool = $Renderer.render_notes(midi_clip.notes)
+	if not result:
+		print("An error occurred while synthesizing the notes")
+
+
+func _on_SaveButton_button_down():
+	var dialog_container := $FileDialogContainer
+	dialog_container.visible = true
+	var file_dialog := dialog_container.get_node("SaveFileDialog")
+	file_dialog.popup()
+
+func _on_SaveFileDialog_hide():
+	var dialog_container := $FileDialogContainer
+	dialog_container.visible = false
+
+func _on_OpenFileDialog_hide():
+	var dialog_container := $FileDialogContainer
+	dialog_container.visible = false
+
+func _on_SaveFileDialog_file_selected(path):
+	var midi_serialized : Dictionary = midi_clip.serialize()
+	var json_string : String = JSON.print(midi_serialized)
+	var output_file : File = File.new()
+	output_file.open(path,File.WRITE)
+	output_file.store_string(json_string)
+	output_file.close()
+
+
+func _on_OpenFileDialog_file_selected(path):
+	var file : File = File.new()
+	file.open(path,File.READ)
+	var json = file.get_as_text()
+	var deserialized_dic : Dictionary = JSON.parse(json).result
+	midi_clip = MidiClip.new()
+	midi_clip.deserialize(deserialized_dic)
+
+
+func _on_OpenButton_button_down():
+	var dialog_container := $FileDialogContainer
+	dialog_container.visible = true
+	var file_dialog := dialog_container.get_node("OpenFileDialog")
+	file_dialog.popup()
+
+

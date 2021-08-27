@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://views/MidiEditor/MidiEditorView.gd" type="Script" id=1]
 [ext_resource path="res://views/MidiEditor/MidiEditor.gd" type="Script" id=2]
@@ -12,25 +12,30 @@
 [ext_resource path="res://views/MidiEditor/HoverNotes.gd" type="Script" id=10]
 [ext_resource path="res://resources/ButtonGroups/EditModeButtonGroup.tres" type="ButtonGroup" id=11]
 [ext_resource path="res://resources/ButtonGroups/QuantizationButtons.tres" type="ButtonGroup" id=12]
+[ext_resource path="res://views/MidiEditor/Renderer.gdns" type="Script" id=13]
+[ext_resource path="res://assets/fonts/NotoSansJP-Light.otf" type="DynamicFontData" id=14]
 
 [sub_resource type="DynamicFont" id=1]
 size = 15
 font_data = ExtResource( 3 )
 
+[sub_resource type="DynamicFont" id=2]
+size = 22
+outline_size = 1
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 14 )
+
 [node name="MidiEditor" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 rect_clip_content = true
-mouse_filter = 1
 script = ExtResource( 2 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 horizontal_increments = 40.0
 vertical_increments = 40.0
-zoom_steps = 0.5
-max_h_zoom = 5.0
-min_h_zoom = 1.0
+zoom_steps = 0.1
+max_h_zoom = 2.0
+min_h_zoom = 0.1
+min_v_zoom = 3.0
 horizontal_scale = 1.0
 max_bar_count = 30
 midi_clip = ExtResource( 4 )
@@ -39,8 +44,6 @@ quantization_buttons = ExtResource( 12 )
 [node name="MidiEditorView" type="Control" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_right = -12.0
-margin_bottom = -12.0
 rect_min_size = Vector2( 600, 0 )
 rect_clip_content = true
 mouse_filter = 1
@@ -63,113 +66,23 @@ highlight_color = Color( 0.145098, 0.145098, 0.145098, 1 )
 white_key_shade = Color( 0.231373, 0.231373, 0.231373, 0.870588 )
 key_color = Color( 0.196078, 0.196078, 0.196078, 1 )
 selection_color = Color( 0, 0.741176, 0.968627, 0.219608 )
+note_font = SubResource( 2 )
 
-[node name="Toolbar" type="Panel" parent="."]
-anchor_top = 0.962
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_top = -12.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="ToolbarContainer" type="HBoxContainer" parent="Toolbar"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 20.0
-margin_top = 10.0
-margin_right = -20.0
-margin_bottom = -24.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="HBoxContainer" type="HBoxContainer" parent="Toolbar/ToolbarContainer"]
-margin_right = 97.0
-margin_bottom = 20.0
-
-[node name="Select" type="Button" parent="Toolbar/ToolbarContainer/HBoxContainer"]
-margin_right = 51.0
-margin_bottom = 20.0
-toggle_mode = true
-pressed = true
-group = ExtResource( 11 )
-text = "select"
-
-[node name="draw" type="Button" parent="Toolbar/ToolbarContainer/HBoxContainer"]
-margin_left = 55.0
-margin_right = 97.0
-margin_bottom = 20.0
-toggle_mode = true
-group = ExtResource( 11 )
-text = "draw"
-
-[node name="VSeparator" type="VSeparator" parent="Toolbar/ToolbarContainer"]
-margin_left = 101.0
-margin_right = 105.0
-margin_bottom = 20.0
-
-[node name="Quantization" type="HBoxContainer" parent="Toolbar/ToolbarContainer"]
-margin_left = 109.0
-margin_right = 257.0
-margin_bottom = 20.0
-
-[node name="Label" type="Label" parent="Toolbar/ToolbarContainer/Quantization"]
-margin_top = 3.0
-margin_right = 86.0
-margin_bottom = 17.0
-text = "Quantization "
-
-[node name="QuantizationDropdown" type="OptionButton" parent="Toolbar/ToolbarContainer/Quantization"]
-margin_left = 90.0
-margin_right = 148.0
-margin_bottom = 20.0
-group = ExtResource( 12 )
-text = "1/16"
-expand_icon = true
-
-[node name="VSeparator2" type="VSeparator" parent="Toolbar/ToolbarContainer"]
-margin_left = 261.0
-margin_right = 265.0
-margin_bottom = 20.0
-
-[node name="LengthQuantization" type="HBoxContainer" parent="Toolbar/ToolbarContainer"]
-margin_left = 269.0
-margin_right = 409.0
-margin_bottom = 20.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Label" type="Label" parent="Toolbar/ToolbarContainer/LengthQuantization"]
-margin_top = 3.0
-margin_right = 78.0
-margin_bottom = 17.0
-text = "Note Length"
-
-[node name="LengthQuantizationDropdown" type="OptionButton" parent="Toolbar/ToolbarContainer/LengthQuantization"]
-margin_left = 82.0
-margin_right = 140.0
-margin_bottom = 20.0
-group = ExtResource( 12 )
-text = "1/16"
-expand_icon = true
-
-[node name="HScrollBar" type="HScrollBar" parent="."]
+[node name="HScrollBar" type="HScrollBar" parent="MidiEditorView"]
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 12.0
-margin_top = -48.0
+margin_top = -15.0
 margin_right = -12.0
-margin_bottom = -48.0
+margin_bottom = -3.0
 max_value = 3770.0
 page = 1012.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="VScrollBar" type="VScrollBar" parent="."]
+[node name="VScrollBar" type="VScrollBar" parent="MidiEditorView"]
 anchor_left = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -182,6 +95,114 @@ value = 546.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="ToolbarContainer" type="HBoxContainer" parent="."]
+anchor_right = 1.0
+margin_left = 20.0
+margin_top = 50.0
+margin_bottom = 80.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ToolbarContainer"]
+margin_right = 97.0
+margin_bottom = 30.0
+
+[node name="Select" type="Button" parent="ToolbarContainer/HBoxContainer"]
+margin_right = 51.0
+margin_bottom = 30.0
+toggle_mode = true
+pressed = true
+group = ExtResource( 11 )
+text = "select"
+
+[node name="draw" type="Button" parent="ToolbarContainer/HBoxContainer"]
+margin_left = 55.0
+margin_right = 97.0
+margin_bottom = 30.0
+toggle_mode = true
+group = ExtResource( 11 )
+text = "draw"
+
+[node name="VSeparator" type="VSeparator" parent="ToolbarContainer"]
+margin_left = 101.0
+margin_right = 105.0
+margin_bottom = 30.0
+
+[node name="Quantization" type="HBoxContainer" parent="ToolbarContainer"]
+margin_left = 109.0
+margin_right = 257.0
+margin_bottom = 30.0
+
+[node name="Label" type="Label" parent="ToolbarContainer/Quantization"]
+margin_top = 8.0
+margin_right = 86.0
+margin_bottom = 22.0
+text = "Quantization "
+
+[node name="QuantizationDropdown" type="OptionButton" parent="ToolbarContainer/Quantization"]
+margin_left = 90.0
+margin_right = 148.0
+margin_bottom = 30.0
+group = ExtResource( 12 )
+text = "1/16"
+expand_icon = true
+
+[node name="VSeparator2" type="VSeparator" parent="ToolbarContainer"]
+margin_left = 261.0
+margin_right = 265.0
+margin_bottom = 30.0
+
+[node name="LengthQuantization" type="HBoxContainer" parent="ToolbarContainer"]
+margin_left = 269.0
+margin_right = 409.0
+margin_bottom = 30.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="ToolbarContainer/LengthQuantization"]
+margin_top = 8.0
+margin_right = 78.0
+margin_bottom = 22.0
+text = "Note Length"
+
+[node name="LengthQuantizationDropdown" type="OptionButton" parent="ToolbarContainer/LengthQuantization"]
+margin_left = 82.0
+margin_right = 140.0
+margin_bottom = 30.0
+group = ExtResource( 12 )
+text = "1/16"
+expand_icon = true
+
+[node name="VSeparator3" type="VSeparator" parent="ToolbarContainer"]
+margin_left = 413.0
+margin_right = 417.0
+margin_bottom = 30.0
+
+[node name="RenderButton" type="Button" parent="ToolbarContainer"]
+margin_left = 421.0
+margin_right = 478.0
+margin_bottom = 30.0
+text = "Render"
+
+[node name="VSeparator4" type="VSeparator" parent="ToolbarContainer"]
+margin_left = 482.0
+margin_right = 486.0
+margin_bottom = 30.0
+
+[node name="SaveButton" type="Button" parent="ToolbarContainer"]
+margin_left = 490.0
+margin_right = 531.0
+margin_bottom = 30.0
+text = "Save"
+
+[node name="OpenButton" type="Button" parent="ToolbarContainer"]
+margin_left = 535.0
+margin_right = 582.0
+margin_bottom = 30.0
+text = "Open"
 
 [node name="StateMachine" type="Node" parent="." groups=[
 "state_machine",
@@ -206,7 +227,64 @@ script = ExtResource( 7 )
 [node name="SelectNote" type="Node" parent="StateMachine/HoverNote"]
 script = ExtResource( 8 )
 
-[connection signal="toggled" from="Toolbar/ToolbarContainer/HBoxContainer/Select" to="." method="_on_Select_toggled"]
-[connection signal="toggled" from="Toolbar/ToolbarContainer/HBoxContainer/draw" to="." method="_on_draw_toggled"]
-[connection signal="item_selected" from="Toolbar/ToolbarContainer/Quantization/QuantizationDropdown" to="." method="_on_QuantizationDropdown_item_selected"]
-[connection signal="item_selected" from="Toolbar/ToolbarContainer/LengthQuantization/LengthQuantizationDropdown" to="." method="_on_LengthQuantizationDropdown_item_selected"]
+[node name="Renderer" type="Node" parent="."]
+script = ExtResource( 13 )
+
+[node name="FileDialogContainer" type="Control" parent="."]
+margin_top = 8.0
+margin_right = 1024.0
+margin_bottom = 8.0
+
+[node name="SaveFileDialog" type="FileDialog" parent="FileDialogContainer"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -250.5
+margin_top = -162.5
+margin_right = 250.5
+margin_bottom = 162.5
+rect_min_size = Vector2( 300, 105 )
+popup_exclusive = true
+window_title = "Enregistrer un fichier"
+dialog_hide_on_ok = true
+access = 2
+filters = PoolStringArray( "*.cvproj" )
+current_dir = "/Users/SeleDreams/Dropbox/Documents/Development/CodeVoice/VocalEditor"
+current_file = "new_project"
+current_path = "/Users/SeleDreams/Dropbox/Documents/Development/CodeVoice/VocalEditor/new_project"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="OpenFileDialog" type="FileDialog" parent="FileDialogContainer"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -252.0
+margin_top = -161.0
+margin_right = 247.0
+margin_bottom = 165.0
+rect_min_size = Vector2( 300, 105 )
+window_title = "Ouvrir un fichier"
+mode = 0
+access = 2
+filters = PoolStringArray( "*.cvproj" )
+current_dir = "/Users/SeleDreams/Dropbox/Documents/Development/CodeVoice/VocalEditor"
+current_path = "/Users/SeleDreams/Dropbox/Documents/Development/CodeVoice/VocalEditor/"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[connection signal="toggled" from="ToolbarContainer/HBoxContainer/Select" to="." method="_on_Select_toggled"]
+[connection signal="toggled" from="ToolbarContainer/HBoxContainer/draw" to="." method="_on_draw_toggled"]
+[connection signal="item_selected" from="ToolbarContainer/Quantization/QuantizationDropdown" to="." method="_on_QuantizationDropdown_item_selected"]
+[connection signal="item_selected" from="ToolbarContainer/LengthQuantization/LengthQuantizationDropdown" to="." method="_on_LengthQuantizationDropdown_item_selected"]
+[connection signal="button_down" from="ToolbarContainer/RenderButton" to="." method="_on_RenderButton_button_down"]
+[connection signal="button_down" from="ToolbarContainer/SaveButton" to="." method="_on_SaveButton_button_down"]
+[connection signal="button_down" from="ToolbarContainer/OpenButton" to="." method="_on_OpenButton_button_down"]
+[connection signal="file_selected" from="FileDialogContainer/SaveFileDialog" to="." method="_on_SaveFileDialog_file_selected"]
+[connection signal="hide" from="FileDialogContainer/SaveFileDialog" to="." method="_on_SaveFileDialog_hide"]
+[connection signal="file_selected" from="FileDialogContainer/OpenFileDialog" to="." method="_on_OpenFileDialog_file_selected"]
+[connection signal="hide" from="FileDialogContainer/OpenFileDialog" to="." method="_on_OpenFileDialog_hide"]

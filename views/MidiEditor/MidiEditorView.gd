@@ -11,6 +11,7 @@ export var key_color : Color
 export var selection_color : Color
 var selected_notes : Array
 var selection_rect : Rect2
+export var note_font : Font
 
 func draw_highlighted_part():
 	var right_side = min(rect_size.x,(horizontal_scale * midi_editor.midi_clip.beats / midi_editor.midi_clip.timesig_numerator / midi_editor.midi_clip.timesig_denominator * midi_editor.bpm_factor) - offset.x)
@@ -40,6 +41,8 @@ func draw_notes():
 				draw_rect(Rect2(note_pos,Vector2(note_length,vertical_scale)),selected_note_color)
 			else:
 				draw_rect(Rect2(note_pos,Vector2(note_length,vertical_scale)),note_color)
+			var string_size = note_font.get_string_size(note.phoneme)
+			draw_string(note_font,note_pos + Vector2(5,vertical_scale / 2 + string_size.y  / 4),note.phoneme)
 
 func draw_selection():
 	draw_rect(selection_rect,selection_color)
@@ -79,12 +82,17 @@ func clear_selection():
 	print("clear")
 	print(selected_notes)
 	for note in selected_notes:
-		note.selected = false
-		note.selected_index = -1
+		if note != null:
+			note.selected = false
+			note.selected_index = -1
 	selected_notes.clear()
 	print(selected_notes)
 	print("clear done")
 
+func delete_selection():
+	for note in selected_notes:
+		midi_editor.midi_clip.remove_note(note)
+	clear_selection()
 
 func _draw():
 	clear_background()
@@ -98,3 +106,4 @@ func _draw():
 func update_scale(scale : Vector2):
 	horizontal_scale = scale.x
 	vertical_scale = scale.y
+
