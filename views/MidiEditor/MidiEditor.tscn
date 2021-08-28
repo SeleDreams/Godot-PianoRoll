@@ -13,7 +13,7 @@
 [ext_resource path="res://resources/ButtonGroups/EditModeButtonGroup.tres" type="ButtonGroup" id=11]
 [ext_resource path="res://resources/ButtonGroups/QuantizationButtons.tres" type="ButtonGroup" id=12]
 [ext_resource path="res://views/MidiEditor/Renderer.gdns" type="Script" id=13]
-[ext_resource path="res://assets/fonts/NotoSansJP-Light.otf" type="DynamicFontData" id=14]
+[ext_resource path="res://assets/fonts/NotoSansJP-Bold.otf" type="DynamicFontData" id=14]
 
 [sub_resource type="DynamicFont" id=1]
 size = 15
@@ -60,8 +60,8 @@ timeline_foreground = Color( 0.572549, 0.572549, 0.572549, 1 )
 timeline_height = 20.0
 timeline_font = SubResource( 1 )
 octave_color = Color( 0.623529, 0.623529, 0.623529, 1 )
-note_color = Color( 0, 0.823529, 0.2, 0.819608 )
-selected_note_color = Color( 0.533333, 0.866667, 0, 0.760784 )
+note_color = Color( 0, 0.411765, 0.541176, 0.819608 )
+selected_note_color = Color( 0, 0.756863, 1, 0.819608 )
 highlight_color = Color( 0.145098, 0.145098, 0.145098, 1 )
 white_key_shade = Color( 0.231373, 0.231373, 0.231373, 0.870588 )
 key_color = Color( 0.196078, 0.196078, 0.196078, 1 )

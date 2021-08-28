@@ -19,6 +19,10 @@ func get_pitch() -> int:
 func get_phoneme() -> String:
 	return phoneme
 
+func get_pos() -> int:
+	return pos
+
+
 func serialize() -> Dictionary:
 	var output : Dictionary = Dictionary()
 	output["note"] = note
